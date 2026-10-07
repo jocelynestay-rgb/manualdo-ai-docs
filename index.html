@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manualdo - AI</title>
+<meta name="description" content="Manualdo - AI convierte videos narrados de procesos operativos en procedimientos Word con formato corporativo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#131F44; --navy-2:#1C2E65; --blue:#0F48C7; --green:#01D196; --orange:#FFAB40;
+  --bg:#FFFFFF; --bg-alt:#F2F2F2; --card:#FFFFFF; --text:#131F44; --muted:#4A5578;
+  --line:#E3E6EE; --tint-blue:#DEE4F6; --tint-green:#C3FFEE; --tint-orange:#FFEED9;
+  --link:#0F48C7; --shadow:0 4px 24px rgba(19,31,68,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1530; --bg-alt:#111B3A; --card:#16224A; --text:#EEF1F8; --muted:#AEB7CF;
+    --line:#26345F; --tint-blue:#1C2E65; --tint-green:#0B3E33; --tint-orange:#3D2A10;
+    --link:#76B9F8; --shadow:0 4px 24px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1530; --bg-alt:#111B3A; --card:#16224A; --text:#EEF1F8; --muted:#AEB7CF;
+  --line:#26345F; --tint-blue:#1C2E65; --tint-green:#0B3E33; --tint-orange:#3D2A10;
+  --link:#76B9F8; --shadow:0 4px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.6 'Montserrat',Arial,sans-serif;-webkit-text-size-adjust:100%}
+a{color:var(--link)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+header.hero{background:linear-gradient(135deg,#131F44 0%,#0F48C7 100%);color:#fff;padding:72px 0 64px}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.12);border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600;letter-spacing:.02em}
+.hero h1{font-size:clamp(34px,6vw,52px);line-height:1.1;margin:18px 0 14px;font-weight:700}
+.hero p{font-size:18px;max-width:680px;margin:0 0 28px;color:#E4ECFF}
+.btn{display:inline-block;background:#01D196;color:#131F44;text-decoration:none;font-weight:700;border-radius:999px;padding:13px 28px;transition:all .2s ease}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(1,209,150,.35)}
+nav.toc{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav.toc .wrap{display:flex;gap:6px;overflow-x:auto;padding-top:10px;padding-bottom:10px;scrollbar-width:none}
+nav.toc a{white-space:nowrap;text-decoration:none;color:var(--text);font-size:14px;font-weight:600;padding:6px 12px;border-radius:999px}
+nav.toc a:hover{background:var(--tint-blue)}
+section{padding:64px 0}
+section.alt{background:var(--bg-alt)}
+h2{font-size:clamp(26px,4vw,32px);line-height:1.2;margin:0 0 10px}
+h3{font-size:19px;margin:0 0 8px;font-weight:600}
+.lead{color:var(--muted);max-width:720px;margin:0 0 32px}
+.grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--card);border-radius:16px;padding:24px;box-shadow:var(--shadow)}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;margin-bottom:14px;background:var(--tint-blue)}
+.icon svg{width:22px;height:22px;stroke:var(--link);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.steps{list-style:none;padding:0;margin:0;display:grid;gap:14px;counter-reset:s}
+.steps li{counter-increment:s;background:var(--card);border-radius:16px;padding:18px 20px 18px 72px;position:relative;box-shadow:var(--shadow)}
+.steps li::before{content:counter(s);position:absolute;left:20px;top:18px;width:36px;height:36px;border-radius:50%;background:#01D196;color:#131F44;font-weight:700;display:grid;place-items:center}
+.steps b{display:block;margin-bottom:2px}
+.steps span{color:var(--muted);font-size:15px}
+.modes{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.mode{border-radius:16px;padding:26px}
+.mode.a{background:var(--tint-green)} .mode.b{background:var(--tint-orange)}
+.mode p{margin:0}
+.doc{counter-reset:d;columns:2 280px;column-gap:28px;padding:0;margin:0;list-style:none}
+.doc li{break-inside:avoid;padding:10px 0;border-bottom:1px solid var(--line);display:flex;gap:12px}
+.doc li::before{counter-increment:d;content:counter(d);font-weight:700;color:var(--link);min-width:22px}
+.note{border-left:4px solid #01D196;background:var(--card);border-radius:0 12px 12px 0;padding:16px 20px;margin-top:28px;box-shadow:var(--shadow)}
+.table{width:100%;border-collapse:collapse;background:var(--card);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);font-size:15px}
+.table th{background:#131F44;color:#fff;text-align:left;padding:12px 16px;font-weight:600}
+.table td{padding:12px 16px;border-top:1px solid var(--line);vertical-align:top}
+.table-wrap{overflow-x:auto}
+footer{background:#131F44;color:#C8D0E6;padding:32px 0;font-size:14px}
+footer b{color:#fff}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="tag">Global66 · Herramienta interna</span>
+    <h1>Manualdo - AI</h1>
+    <p>Convierte videos narrados de procesos operativos en procedimientos Word con el formato corporativo, y consolida varios procedimientos existentes en un solo documento.</p>
+    <a class="btn" href="#como-funciona">Ver cómo funciona</a>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Secciones">
+  <div class="wrap">
+    <a href="#que-hace">Qué hace</a>
+    <a href="#como-funciona">Video → Word</a>
+    <a href="#consolidacion">Consolidación</a>
+    <a href="#documento">Documento generado</a>
+    <a href="#uso">Cómo se usa</a>
+    <a href="#buenas-practicas">Buenas prácticas</a>
+  </div>
+</nav>
+
+<section id="que-hace">
+  <div class="wrap">
+    <h2>Qué hace</h2>
+    <p class="lead">Una aplicación web que automatiza la documentación de procesos: a partir de una grabación de pantalla narrada, entrega un procedimiento listo para revisión.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="15" height="14" rx="2"/><path d="M17 10l5-3v10l-5-3"/></svg></div>
+        <h3>Video a procedimiento</h3>
+        <p>Transcribe la narración, lee lo que aparece en pantalla y redacta el procedimiento paso a paso.</p>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M8 3h8l4 4v14H8z"/><path d="M4 7v14h12"/></svg></div>
+        <h3>Consolidación de Words</h3>
+        <p>Une entre 2 y 30 procedimientos .docx en un único documento, agrupando o integrando los flujos.</p>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="5" rx="1"/><rect x="2" y="17" width="6" height="5" rx="1"/><rect x="16" y="17" width="6" height="5" rx="1"/><path d="M12 7v5M5 17v-5h14v5"/></svg></div>
+        <h3>Flujograma automático</h3>
+        <p>Cada documento incluye un flujograma con los pasos, herramientas y puntos de decisión.</p>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
+        <h3>Cola y repositorio</h3>
+        <p>Los trabajos se procesan en cola, con progreso en vivo, y todo queda guardado y descargable.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="como-funciona" class="alt">
+  <div class="wrap">
+    <h2>Del video al Word</h2>
+    <p class="lead">Al subir un video, el trabajo entra a la cola y pasa por estas etapas sin intervención manual.</p>
+    <ol class="steps">
+      <li><b>Inspección y audio</b><span>Se leen duración y resolución, y se extrae el audio comprimido.</span></li>
+      <li><b>Transcripción</b><span>La narración se transcribe con marcas de tiempo por frase.</span></li>
+      <li><b>Lectura de pantalla</b><span>Se toma una captura cada pocos segundos y se analizan URLs, menús, campos y textos exactos. Lo visible en pantalla prevalece sobre el audio.</span></li>
+      <li><b>Redacción</b><span>Transcripción y notas de pantalla se combinan en un procedimiento estructurado. Los datos personales del caso de ejemplo se generalizan.</span></li>
+      <li><b>Flujograma</b><span>Se dibuja el diagrama del proceso con los colores de marca.</span></li>
+      <li><b>Word corporativo y PDF</b><span>Se genera el Word sobre el template oficial y un PDF para revisión rápida.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section id="consolidacion">
+  <div class="wrap">
+    <h2>Consolidación de procedimientos</h2>
+    <p class="lead">Sube dos o más procedimientos Word y elige cómo combinarlos.</p>
+    <div class="modes">
+      <div class="mode a">
+        <h3>Agrupar</h3>
+        <p>El cuerpo contiene lo común a todos los documentos, redactado una vez. Las diferencias se incorporan marcadas con su origen, por ejemplo <b>“Solo Colombia: …”</b>, sin perder contenido.</p>
+      </div>
+      <div class="mode b">
+        <h3>Consolidar</h3>
+        <p>Todos los flujos se integran en un único proceso de punta a punta: etapas ordenadas, duplicados fusionados y variantes convertidas en ramas de decisión.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="documento" class="alt">
+  <div class="wrap">
+    <h2>El documento generado</h2>
+    <p class="lead">Todos los procedimientos siguen la misma estructura del formato corporativo, con portada, página de control de versiones e índice.</p>
+    <ol class="doc">
+      <li>Objetivo</li>
+      <li>Alcance</li>
+      <li>Definiciones</li>
+      <li>Herramientas y fuentes utilizadas</li>
+      <li>Descripción del procedimiento</li>
+      <li>Flujograma</li>
+      <li>Documentación de respaldo (opcional)</li>
+      <li>Escenarios de aceptación y rechazo (opcional)</li>
+      <li>Criterios y observaciones</li>
+      <li>Documentos de referencia</li>
+    </ol>
+    <div class="note">Todo documento sale firmado como <b>borrador</b>. Los campos <i>Revisada</i> y <i>Aprobada</i> quedan vacíos a propósito: la revisión y aprobación son siempre humanas.</div>
+  </div>
+</section>
+
+<section id="uso">
+  <div class="wrap">
+    <h2>Cómo se usa</h2>
+    <p class="lead">La interfaz tiene cinco secciones.</p>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Sección</th><th>Para qué sirve</th></tr></thead>
+        <tbody>
+          <tr><td><b>Subir video de proceso</b></td><td>Arrastra o selecciona el video; se sube y se encola automáticamente.</td></tr>
+          <tr><td><b>Consolidar procedimientos</b></td><td>Selecciona los .docx, elige Agrupar o Consolidar y presiona Procesar.</td></tr>
+          <tr><td><b>Cola de trabajo</b></td><td>Estado, etapa y porcentaje de cada trabajo. Si algo falla, el botón Reintentar lo vuelve a procesar.</td></tr>
+          <tr><td><b>Repositorio de videos</b></td><td>Descarga del Word, PDF, flujograma, transcripción y video original.</td></tr>
+          <tr><td><b>Repositorio de consolidaciones</b></td><td>Documentos fuente y documento consolidado de cada lote.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="buenas-practicas" class="alt">
+  <div class="wrap">
+    <h2>Buenas prácticas</h2>
+    <div class="grid">
+      <div class="card"><h3>Narra con claridad</h3><p>Explica cada paso en voz alta mientras lo haces; mejora la redacción final.</p></div>
+      <div class="card"><h3>Pantalla legible</h3><p>Evita zoom muy bajo y movimientos rápidos para que menús y campos se lean bien.</p></div>
+      <div class="card"><h3>Revisa el PDF</h3><p>Antes de distribuir, revisa la vista previa y valida los campos y estados leídos de pantalla.</p></div>
+      <div class="card"><h3>Paciencia con videos largos</h3><p>En etapas largas el porcentaje puede quedarse quieto varios minutos; es normal.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap"><b>Manualdo - AI</b> · Global66 · Documentación funcional</div>
+</footer>
+
+</body>
+</html>
